@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generate cash sales receipts for customers">
+    <meta name="author" content="KANE Welding Center">
+    <title>Receipt Generator</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Cash Sales Receipt Generator</h1>
+        <form>
+            <label for="customerName">Customer Name:</label>
+            <input type="text" id="customerName" placeholder="Enter customer name" required>
+            <label for="itemQuantity">Quantity:</label>
+            <input type="number" class="item-quantity" id="itemQuantity" placeholder="Enter quantity" min="1" required>
+            <label for="itemParticulars">Particulars:</label>
+            <input type="text" class="item-particulars" id="itemParticulars" placeholder="Enter details of the item"
+                required>
+            <label for="itemRate">Rate:</label>
+            <input type="number" class="item-rate" id="itemRate" placeholder="Enter price" pattern="[0-9]+" required>
+            <button type="button" onclick="addItem()">Add Item</button>
+        </form>
+        <div id="itemList"></div>
+        <button type="button" onclick="printReceipt()">Print Receipt</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
