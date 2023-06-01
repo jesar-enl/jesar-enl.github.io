@@ -47,16 +47,21 @@ function renderItems() {
 
 // Function to calculate the total amount for the receipt
 function calculateTotalAmount() {
-  let total = 0;
-  const itemRows = document.querySelectorAll('.item-row');
-  itemRows.forEach(function (itemRow) {
-    const quantity = parseInt(itemRow.querySelector('.item-quantity').value);
-    const rate = parseInt(itemRow.querySelector('.item-rate').innerText);
-    const amount = quantity * rate;
-    itemRow.querySelector('.item-amount').innerText = amount;
-    total += amount;
-  });
-  return total;
+  let totalAmount = 0;
+  const tableBody = document.getElementById('tableBody');
+  const rows = tableBody.getElementsByTagName('tr');
+
+  for (let i = 0; i < rows.length; i++) {
+    const amountCell = rows[i].cells[3];
+    const amountText = amountCell.textContent.trim();
+
+    if (amountText !== '') {
+      const amount = parseFloat(amountText);
+      totalAmount += amount;
+    }
+  }
+
+  return totalAmount.toFixed(2);
 }
 
 // Function to get the items from the form
@@ -113,98 +118,77 @@ function addItemsToReceipt() {
 }
 
 // function to write the total amount in words
-function numberToWords(number) {
+function convertAmountToWords(amount) {
   const units = [
     '',
-    'one',
-    'two',
-    'three',
-    'four',
-    'five',
-    'six',
-    'seven',
-    'eight',
-    'nine',
-    'ten',
-    'eleven',
-    'twelve',
-    'thirteen',
-    'fourteen',
-    'fifteen',
-    'sixteen',
-    'seventeen',
-    'eighteen',
-    'nineteen',
+    'One',
+    'Two',
+    'Three',
+    'Four',
+    'Five',
+    'Six',
+    'Seven',
+    'Eight',
+    'Nine',
+  ];
+  const teens = [
+    'Ten',
+    'Eleven',
+    'Twelve',
+    'Thirteen',
+    'Fourteen',
+    'Fifteen',
+    'Sixteen',
+    'Seventeen',
+    'Eighteen',
+    'Nineteen',
   ];
   const tens = [
     '',
     '',
-    'twenty',
-    'thirty',
-    'forty',
-    'fifty',
-    'sixty',
-    'seventy',
-    'eighty',
-    'ninety',
-  ];
-  const scales = [
-    '',
-    'thousand',
-    'million',
-    'billion',
-    'trillion',
-    'quadrillion',
+    'Twenty',
+    'Thirty',
+    'Forty',
+    'Fifty',
+    'Sixty',
+    'Seventy',
+    'Eighty',
+    'Ninety',
   ];
 
-  if (number === 0) {
-    return 'zero';
+  const words = [];
+
+  if (amount === 0) {
+    return 'Zero';
   }
 
-  // Split the number into groups of three digits
-  const chunks = [];
-  while (number > 0) {
-    chunks.push(number % 1000);
-    number = Math.floor(number / 1000);
+  if (amount >= 1000000) {
+    words.push(`${convertAmountToWords(Math.floor(amount / 1000000))} Million`);
+    amount %= 1000000;
   }
 
-  // Convert each group of three digits to words
-  const result = [];
-  for (let i = 0; i < chunks.length; i++) {
-    const chunk = chunks[i];
-    if (chunk === 0) {
-      continue; // Skip empty chunks
-    }
-    const chunkWords = [];
-
-    // Convert the hundreds place
-    const hundred = Math.floor(chunk / 100);
-    if (hundred > 0) {
-      chunkWords.push(units[hundred] + ' hundred');
-    }
-
-    // Convert the tens and units places
-    const remainder = chunk % 100;
-    if (remainder > 0) {
-      if (remainder < 20) {
-        chunkWords.push(units[remainder]);
-      } else {
-        const ten = Math.floor(remainder / 10);
-        const unit = remainder % 10;
-        chunkWords.push(tens[ten] + (unit > 0 ? '-' + units[unit] : ''));
-      }
-    }
-
-    // Add the scale word if necessary
-    const scale = scales[i];
-    if (scale && chunkWords.length > 0) {
-      chunkWords.push(scale);
-    }
-
-    result.unshift(chunkWords.join(' '));
+  if (amount >= 1000) {
+    words.push(`${convertAmountToWords(Math.floor(amount / 1000))} Thousand`);
+    amount %= 1000;
   }
 
-  return result.join(' ');
+  if (amount >= 100) {
+    words.push(`${convertAmountToWords(Math.floor(amount / 100))} Hundred`);
+    amount %= 100;
+  }
+
+  if (amount >= 20) {
+    words.push(tens[Math.floor(amount / 10)]);
+    amount %= 10;
+  }
+
+  if (amount >= 10) {
+    words.push(teens[amount - 10]);
+  } else if (amount > 0) {
+    words.push(units[amount]);
+  }
+
+  return words.join(' ');
 }
 
 // Print the receipt
@@ -218,7 +202,9 @@ function printReceipt() {
   const totalAmount = document.getElementById('totalAmount');
 
   // Get the total amount in words
-  let totalAmountInWords = document.getElementById('wordAmount');
+  const totalAmountWords = convertAmountToWords(
+    parseFloat(calculateTotalAmount())
+  );
 
   // Update receipt information
   document.getElementById('receiptNumber').innerText = receiptNumber;
@@ -229,8 +215,9 @@ function printReceipt() {
   receiptDate.innerText = getCurrentDate();
   customerNamePrint.innerText = getCustomerName();
   totalAmount.innerText = calculateTotalAmount();
+
   // Print the total amount in words on the receipt
-  totalAmountInWords.innerText = numberToWords(totalAmount);
+  document.getElementById('wordAmount').textContent = totalAmountWords;
 
   // Temporarily show the receiptContainer for printing
   receiptContainer.style.display = 'block';
