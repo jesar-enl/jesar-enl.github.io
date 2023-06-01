@@ -1,239 +1,290 @@
-let receiptCounter = 1; // Counter variable to track the receipt number
+// Global variable to keep track of the receipt number
+let receiptCount = 1;
 
-function addItem() {
-  let particulars = document.getElementById('itemParticulars').value;
-  let quantity = parseInt(document.getElementById('itemQuantity').value);
-  let rate = parseInt(document.getElementById('itemRate').value);
-
-  if (quantity && particulars && rate) {
-    let itemRow = document.createElement('div');
-    itemRow.classList.add('item');
-
-    let quantitySpan = document.createElement('span');
-    quantitySpan.classList.add('item-quantity');
-    quantitySpan.textContent = quantity;
-    itemRow.appendChild(quantitySpan);
-
-    let particularsSpan = document.createElement('span');
-    particularsSpan.classList.add('item-particulars');
-    particularsSpan.textContent = particulars;
-    itemRow.appendChild(particularsSpan);
-
-    let rateSpan = document.createElement('span');
-    rateSpan.classList.add('item-rate');
-    rateSpan.textContent = rate;
-    itemRow.appendChild(rateSpan);
-
-    document.getElementById('itemList').appendChild(itemRow);
-
-    document.getElementById('itemQuantity').value = '';
-    document.getElementById('itemParticulars').value = '';
-    document.getElementById('itemRate').value = '';
-  } else {
-    alert('Please fill in all item details.');
-  }
-}
-
-function printReceipt() {
-  let customerName = document.getElementById('customerName').value;
-  let itemList = document.getElementById('itemList').innerHTML;
-  let totalAmount = getTotalAmount();
-
-  if (customerName && itemList && totalAmount) {
-    let receiptContent = `
-            <div class="receipt">
-                <div class="company-info">
-                <h2 class="company-name">KANE Welding Center</h2>
-                <p class="company-details">P.O. Box 532, Masaka</p>
-                <p class="company-details">Plot 43, Ddiba Street - Masaka Industrial Area</p>
-                <p class="company-details">Tel: 0703900790/0772669378</p>
-            </div>
-            <div class="date">Date: <span id="cuurentDate">${getCurrentDate()}</span></div>
-            <div class="receipt-number">Receipt #: <span id="receiptNumber">${generateReceiptNumber()}</span></div>
-            <div class="customer-info"><p>Name: <span id="customerName">${customerName}</span></p></div>
-            <table class="items-table">
-                <thead>
-                    <tr>
-                        <th>Qty</th>
-                        <th>Particulars</th>
-                        <th>Rate</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${itemList}
-                </tbody>
-            </table>
-            <div class="total">
-                <p>Total Amount: shs. <span id="totalAmount">${totalAmount}</span></p>
-            </div>
-            <div class="stamp-and-signature">
-                <p>For: ................</p>
-                <p>KANE Welding Center</p>
-            </div>
-        </div>
-      `;
-
-    // Add styles to the HTML page for printing
-    let styles = `
-        <style>
-            .receipt {
-                max-width: 500px;
-                margin: 20px auto;
-                padding: 20px;
-                background-color: #fff;
-                border-radius: 5px;
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-                font-family: Arial, sans-serif;
-            }
-
-            .receipt h2 {
-                text-align: center;
-                margin-top: 0;
-            }
-
-            .receipt .company-info {
-                text-align: center;
-                margin-bottom: 20px;
-            }
-
-            .receipt .company-info p {
-                margin: 0;
-            }
-
-            .receipt .company-name {
-                font-weight: bold;
-                font-size: 20px;
-            }
-
-            .receipt .company-details {
-                font-size: 14px;
-            }
-
-            .receipt .date {
-                text-align: right;
-                font-size: 14px;
-            }
-
-            .receipt .receipt-number {
-                font-size: 14px;
-            }
-
-            .receipt .customer-info p {
-                margin: 0;
-            }
-
-            .receipt .items-table {
-                width: 100%;
-                margin-bottom: 20px;
-                border-collapse: collapse;
-            }
-
-            .receipt .items-table th {
-                padding: 8px;
-                background-color: #f5f5f5;
-                border-bottom: 1px solid #ddd;
-                text-align: center;
-            }
-
-            .receipt .items-table td {
-                padding: 8px;
-                border-bottom: 1px solid #ddd;
-            }
-
-            .receipt .total {
-                text-align: right;
-                font-weight: bold;
-                margin-top: 20px;
-            }
-
-            .receipt .stamp-and-signature {
-                text-align: center;
-                margin-top: 20px;
-            }
-
-        </style>
-      `;
-
-    // Combine the styles and receipt HTML
-    let content = styles + receiptContent;
-
-    // Open a new window and write the content
-    let printWindow = window.open('', '_blank');
-    printWindow.document.open();
-    printWindow.document.write(content);
-    printWindow.document.close();
-
-    // Print the receipt
-    printWindow.print();
-  } else {
-    alert('Please fill all required details.');
-  }
-}
-
-// Get current date
-function getCurrentDate() {
-  let currentDate = new Date();
-  let options = { year: 'numeric', month: 'long', day: 'numeric' };
-  return currentDate.toLocaleDateString('en-US', options);
-}
-
-// Get the item list
-function getItems() {
-  let itemListHtml = '';
-  let itemRows = document.getElementsByClassName('item');
-
-  for (let i = 0; i < itemRows.length; i++) {
-    let item = itemRows[i];
-    let quantity = item.getElementsByClassName('item-quantity')[0].value;
-    let particulars = item.getElementsByClassName('item-particulars')[0].value;
-    let rate = item.getElementsByClassName('item-rate')[0].value;
-    let amount = quantity * rate;
-
-    itemListHtml += `
-      <tr>
-        <td>${quantity}</td>
-        <td>${particulars}</td>
-        <td>${rate}</td>
-        <td>${amount}</td>
-      </tr>
-    `;
-  }
-
-  return itemListHtml;
-}
-
-// customer details
-function getCustomerName() {
-  let customerName = document.getElementById('customerName').value;
-  return customerName;
-}
-
-// Calculate the total amount
-function getTotalAmount() {
-  let total = 0;
-  let itemRows = document.getElementsByClassName('item');
-
-  for (let i = 0; i < itemRows.length; i++) {
-    let item = itemRows[i];
-    let quantity = parseInt(
-      item.getElementsByClassName('item-quantity')[0].value
-    );
-    let rate = parseInt(item.querySelector('.item-rate').value);
-    let amount = quantity * rate;
-
-    if (!isNaN(amount)) {
-      total += amount;
-    }
-  }
-
-  return total.toString();
-}
-
-let receiptNumber = 1;
-
+// Function to generate a sequential receipt number
 function generateReceiptNumber() {
-  let paddedNumber = receiptNumber.toString().padStart(3, '0');
-  receiptNumber++;
-  return paddedNumber;
+  let receiptNumber = localStorage.getItem('receiptNumber');
+  if (!receiptNumber) {
+    receiptNumber = '001';
+  } else {
+    receiptNumber = String(parseInt(receiptNumber) + 1).padStart(3, '0');
+  }
+  localStorage.setItem('receiptNumber', receiptNumber);
+  return receiptNumber;
 }
+
+// Function to retrieve the customer name from the form
+function getCustomerName() {
+  return document.getElementById('customerName').value;
+}
+
+// Get the current date in the format: DD/MM/YYYY
+function getCurrentDate() {
+  let today = new Date();
+  let day = today.getDate().toString().padStart(2, '0');
+  let month = today.toLocaleString('default', { month: 'short' });
+  let year = today.getFullYear();
+  return `${day}-${month}-${year}`;
+}
+
+// Render the items in the table
+function renderItems() {
+  let items = getItems();
+  let tableBody = document.getElementById('tableBody');
+  tableBody.innerHTML = '';
+
+  items.forEach(function (item) {
+    let row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${item.name}</td>
+      <td>${item.quantity}</td>
+      <td>${item.rate}</td>
+      <td>${item.amount}</td>
+    `;
+    tableBody.appendChild(row);
+  });
+}
+
+// Function to calculate the total amount for the receipt
+function calculateTotalAmount() {
+  let total = 0;
+  const itemRows = document.querySelectorAll('.item-row');
+  itemRows.forEach(function (itemRow) {
+    const quantity = parseInt(itemRow.querySelector('.item-quantity').value);
+    const rate = parseInt(itemRow.querySelector('.item-rate').innerText);
+    const amount = quantity * rate;
+    itemRow.querySelector('.item-amount').innerText = amount;
+    total += amount;
+  });
+  return total;
+}
+
+// Function to get the items from the form
+function getItems() {
+  const customerName = document.getElementById('customerName').value;
+  const itemName = document.getElementById('itemName').value;
+  const itemQuantity = parseInt(document.getElementById('itemQuantity').value);
+  const itemRate = parseFloat(document.getElementById('itemRate').value);
+
+  const item = {
+    name: itemName,
+    quantity: itemQuantity,
+    rate: itemRate,
+  };
+
+  return {
+    customerName,
+    items: [item],
+  };
+}
+
+// Function to add the items to the receipt table
+function addItemsToReceipt() {
+  const tableBody = document.getElementById('tableBody');
+  const { customerName, items } = getItems();
+
+  items.forEach(function (item) {
+    const row = document.createElement('tr');
+
+    const quantityCell = document.createElement('td');
+    quantityCell.innerText = item.quantity;
+
+    const particularsCell = document.createElement('td');
+    particularsCell.innerText = item.name;
+
+    const rateCell = document.createElement('td');
+    rateCell.innerText = item.rate.toFixed(2);
+
+    const amountCell = document.createElement('td');
+    const amount = (item.quantity * item.rate).toFixed(2);
+    amountCell.innerText = amount;
+
+    row.appendChild(quantityCell);
+    row.appendChild(particularsCell);
+    row.appendChild(rateCell);
+    row.appendChild(amountCell);
+
+    tableBody.appendChild(row);
+  });
+
+  // Update the customer name
+  const customerNameElement = document.getElementById('customerNamePrint');
+  customerNameElement.innerText = customerName;
+}
+
+// function to write the total amount in words
+function numberToWords(number) {
+  const units = [
+    '',
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine',
+    'ten',
+    'eleven',
+    'twelve',
+    'thirteen',
+    'fourteen',
+    'fifteen',
+    'sixteen',
+    'seventeen',
+    'eighteen',
+    'nineteen',
+  ];
+  const tens = [
+    '',
+    '',
+    'twenty',
+    'thirty',
+    'forty',
+    'fifty',
+    'sixty',
+    'seventy',
+    'eighty',
+    'ninety',
+  ];
+  const scales = [
+    '',
+    'thousand',
+    'million',
+    'billion',
+    'trillion',
+    'quadrillion',
+  ];
+
+  if (number === 0) {
+    return 'zero';
+  }
+
+  // Split the number into groups of three digits
+  const chunks = [];
+  while (number > 0) {
+    chunks.push(number % 1000);
+    number = Math.floor(number / 1000);
+  }
+
+  // Convert each group of three digits to words
+  const result = [];
+  for (let i = 0; i < chunks.length; i++) {
+    const chunk = chunks[i];
+    if (chunk === 0) {
+      continue; // Skip empty chunks
+    }
+    const chunkWords = [];
+
+    // Convert the hundreds place
+    const hundred = Math.floor(chunk / 100);
+    if (hundred > 0) {
+      chunkWords.push(units[hundred] + ' hundred');
+    }
+
+    // Convert the tens and units places
+    const remainder = chunk % 100;
+    if (remainder > 0) {
+      if (remainder < 20) {
+        chunkWords.push(units[remainder]);
+      } else {
+        const ten = Math.floor(remainder / 10);
+        const unit = remainder % 10;
+        chunkWords.push(tens[ten] + (unit > 0 ? '-' + units[unit] : ''));
+      }
+    }
+
+    // Add the scale word if necessary
+    const scale = scales[i];
+    if (scale && chunkWords.length > 0) {
+      chunkWords.push(scale);
+    }
+
+    result.unshift(chunkWords.join(' '));
+  }
+
+  return result.join(' ');
+}
+
+// Print the receipt
+function printReceipt() {
+  const receiptContainer = document.getElementById('receiptContainer');
+  receiptContainer.style.display = 'block';
+
+  const receiptNumber = document.getElementById('receiptNumber');
+  const receiptDate = document.getElementById('receiptDate');
+  const customerNamePrint = document.getElementById('customerNamePrint');
+  const totalAmount = document.getElementById('totalAmount');
+
+  // Get the total amount in words
+  let totalAmountInWords = document.getElementById('wordAmount');
+
+  // Update receipt information
+  document.getElementById('receiptNumber').innerText = receiptNumber;
+  document.getElementById('receiptDate').innerText = receiptDate;
+  document.getElementById('customerNamePrint').innerText = customerName;
+
+  receiptNumber.innerText = generateReceiptNumber();
+  receiptDate.innerText = getCurrentDate();
+  customerNamePrint.innerText = getCustomerName();
+  totalAmount.innerText = calculateTotalAmount();
+  // Print the total amount in words on the receipt
+  totalAmountInWords.innerText = numberToWords(totalAmount);
+
+  // Temporarily show the receiptContainer for printing
+  receiptContainer.style.display = 'block';
+
+  // Print only the receiptContainer
+  window.print();
+}
+
+// Clear the form fields
+function clearForm() {
+  document.getElementById('customerName').value = '';
+  document.getElementById('itemName').value = '';
+  document.getElementById('itemQuantity').value = '';
+  document.getElementById('itemRate').value = '';
+  document.getElementById('itemAmount').value = '';
+}
+
+// Reset the receipt section
+function resetReceipt() {
+  // Clear the form fields
+  clearForm();
+
+  // Clear the table
+  let tableBody = document.getElementById('tableBody');
+  tableBody.innerHTML = '';
+
+  // Reset receipt details
+  document.getElementById('receiptNumber').innerText = '';
+  document.getElementById('receiptDate').innerText = '';
+  document.getElementById('customerNamePrint').innerText = '';
+
+  // Reset the total amount
+  document.getElementById('totalAmount').innerText = '';
+
+  // Hide the receipt section
+  document.getElementById('receiptSection').style.display = 'none';
+}
+
+// Add event listener for the "Print Receipt" button
+document
+  .getElementById('printReceiptBtn')
+  .addEventListener('click', function (event) {
+    event.preventDefault();
+    printReceipt();
+  });
+
+// Add event listener for the "Clear" button
+document.getElementById('clearBtn').addEventListener('click', function (event) {
+  event.preventDefault();
+  clearForm();
+});
+
+// Add event listener for the "Reset" button
+document.getElementById('resetBtn').addEventListener('click', function (event) {
+  event.preventDefault();
+  resetReceipt();
+});

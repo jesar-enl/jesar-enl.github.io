@@ -1,140 +1,276 @@
+@import url('https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair:ital,wght@0,500;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500&family=Playfair:ital,wght@0,500;1,500&display=swap');
+
 body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      padding: 20px;
-    }
-    
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      background-color: #fff;
-      border-radius: 5px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-    }
-    
-    h1 {
-      text-align: center;
-      margin-top: 0;
-    }
-    
-    form {
-      display: grid;
-      grid-gap: 10px;
-    }
-    
-    label {
-      font-weight: bold;
-    }
-    
-    input[type="text"],
-    input[type="number"] {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 3px;
-    }
-    
-    button {
-      padding: 10px;
-      background-color: #4caf50;
-      color: #fff;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-    }
-    
-    #itemList {
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 10px;
-    }
-    
-    .item {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 5px;
-      padding: 5px 0;
-    }
-    
-    .item span {
-      font-weight: bold;
-    }
-    
-    .item span:first-child {
-      flex-basis: 70%;
-    }
-    
-    .item span:last-child {
-      flex-basis: 30%;
-      text-align: right;
-    }
-    
-    .receipt {
-      max-width: 500px;
-      margin: 20px auto;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 5px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    }
-    
-    .receipt h2 {
-      text-align: center;
-      margin-top: 0;
-    }
-    
-    .receipt .company-info {
-      margin-bottom: 20px;
-    }
-    
-    .receipt .company-info p {
-      margin: 0;
-    }
-    
-    .receipt .customer-info p {
-      margin: 0;
-    }
-    
-    .receipt .items ul {
-      padding: 0;
-      margin: 0;
-      list-style-type: none;
-    }
-    
-    .receipt .items li {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 5px;
-    }
-    
-    .receipt .items li span {
-      font-weight: bold;
-    }
-    
-    .receipt .items li span:first-child {
-      flex-basis: 70%;
-    }
-    
-    .receipt .items li span:last-child {
-      flex-basis: 30%;
-      text-align: right;
-    }
-    
-    @media screen and (max-width: 600px) {
-      .container {
-        padding: 10px;
-      }
-      .receipt {
-        padding: 10px;
-      }
-    }
-    
-    @media screen and (max-width: 400px) {
-      .container {
-        padding: 5px;
-      }
-      .receipt {
-        padding: 5px;
-      }
-    }
+  font-family: 'Geologica', sans-serif;
+  background-color: #f2f2f2;
+}
+
+#receiptContainer {
+  width: 90%;
+  margin: 20px auto;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#companyInfo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#companyNamePrint {
+  font-size: 40px;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
+  margin: 0;
+  font-family: 'Noto Serif', serif;
+}
+
+#companyAddress {
+  font-size: 14px;
+  color: #777;
+  margin: 0;
+  padding-top: 0;
+  font-family: 'Playfair', serif;
+}
+
+#receiptDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#receiptDetails p {
+  color: #777;
+}
+
+#receiptNumber {
+  font-size: 16px;
+  color: #2b2a2a;
+}
+
+#receiptDate {
+  font-size: 14px;
+  color: #292828;
+}
+
+#customerInfo {
+  margin-bottom: 20px;
+}
+
+#customerNameLabel {
+  font-weight: bold;
+  color: #333;
+}
+
+#table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+#table th,
+#table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+#table th {
+  background-color: #f2f2f2;
+  color: #333;
+  text-transform: uppercase;
+}
+
+#table td:last-child,
+#totalAmount {
+  text-align: right;
+  font-weight: bold;
+}
+
+#totalAmountSection {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#totalAmountLabel {
+  font-weight: bold;
+  margin-right: 10px;
+  color: #555;
+  text-transform: uppercase;
+}
+
+#totalAmount {
+  font-size: 18px;
+  color: #333;
+}
+
+#stampSection {
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+#stampSection p {
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto Mono', monospace;
+}
+
+#stampSection .p2 {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+#resetBtn {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#resetBtn:hover {
+  background-color: #555;
+}
+
+#receiptForm {
+  margin-top: 20px;
+}
+
+#receiptForm h2 {
+  text-align: center;
+  color: #333;
+  text-transform: uppercase;
+}
+
+#receiptForm form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #989595;
+}
+
+#receiptForm label {
+  margin-top: 10px;
+  color: #333;
+}
+
+#receiptForm input {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#receiptForm button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#receiptForm button:hover {
+  background-color: #555;
+}
+
+footer {
+  text-align: center;
+  margin-top: 20px;
+  padding: 20px;
+  color: #777;
+}
+
+/* Media query for tablets */
+@media only screen and (max-width: 768px) {
+  /* Adjust the styles for tablets here */
+  body {
+    font-size: 14px;
+  }
+  /* Example: Modify font size for tablets */
+  .container {
+    width: 90%;
+    margin: 0 auto;
+  }
+  /* Example: Adjust container width and center align for tablets */
+  .header {
+    padding: 20px;
+  }
+  /* Example: Increase padding for tablets */
+  .item-table th,
+  .item-table td {
+    padding: 10px;
+  }
+  /* Example: Adjust padding for table cells on tablets */
+  .receipt-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  /* Example: Center align receipt details for tablets */
+  .receipt-details p {
+    margin-bottom: 5px;
+  }
+  /* Example: Adjust spacing between receipt details for tablets */
+}
+
+/* Media query for smartphones */
+@media only screen and (max-width: 480px) {
+  /* Adjust the styles for smartphones here */
+  body {
+    font-size: 12px;
+  }
+  /* Example: Modify font size for smartphones */
+  .container {
+    width: 100%;
+    margin: 0;
+  }
+  /* Example: Adjust container width and remove margins for smartphones */
+  .header {
+    padding: 10px;
+  }
+  /* Example: Decrease padding for smartphones */
+  .item-table th,
+  .item-table td {
+    padding: 8px;
+  }
+  /* Example: Adjust padding for table cells on smartphones */
+  .receipt-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  /* Example: Center align receipt details for smartphones */
+  .receipt-details p {
+    margin-bottom: 3px;
+  }
+  /* Example: Adjust spacing between receipt details for smartphones */
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #receiptContainer,
+  #receiptContainer * {
+    visibility: visible;
+  }
+  #receiptContainer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 90%;
+  }
+}

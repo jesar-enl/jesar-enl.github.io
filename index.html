@@ -13,25 +13,90 @@
 </head>
 
 <body>
-    <div class="container">
-        <h1>Cash Sales Receipt Generator</h1>
+    <div id="receiptContainer">
+        <div id="companyInfo">
+            <h2 id="companyNamePrint">KANE WELDING CENTER</h2>
+            <p id="companyAddress">P.O. Box 532, Masaka</p>
+            <p id="companyAddress">Plot 43, Ddiba Street - Masaka Industrial Area</p>
+            <p id="companyAddress">Tel: 0703900790/0772669378</p>
+            <p id="companyAddress">Email: kane.codev@gmail.com</p>
+        </div>
+        <div id="receiptDetails">
+            <p>Receipt #: <span id="receiptNumber"></span></p>
+            <p>Date: <span id="receiptDate"></span></p>
+        </div>
+        <hr>
+        <div id="customerInfo">
+            <p id="customerNameLabel">Customer Name: <span id="customerNamePrint"></span></p>
+        </div>
+        <hr>
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Qty</th>
+                    <th>Particulars</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Items will be dynamically added here -->
+            </tbody>
+        </table>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <hr>
+        <div id="totalAmountSection">
+            <p id="totalAmountLabel">Total Amount:</p>
+            <p id="totalAmount"></p>
+        </div>
+        <div>Amount in words: <span id="wordAmount"></span></div>
+        <br>
+        <br>
+        <br>
+        <div id="stampSection">
+            <p>Sign: ......................</p>
+            <p>For: <span class="p2">KANE WELDING CENTER</span></p>
+        </div>
+        <footer>
+            <p>&copy; Copyright - <span id="currentYear"></span></p>
+        </footer>
+
+    </div>
+    <button type="button" id="resetBtn" onclick="resetReceipt()">Reset</button>
+
+    <div id="receiptForm">
+        <h2>Receipt Form</h2>
         <form>
             <label for="customerName">Customer Name:</label>
-            <input type="text" id="customerName" placeholder="Enter customer name" required>
-            <label for="itemQuantity">Quantity:</label>
-            <input type="number" class="item-quantity" id="itemQuantity" placeholder="Enter quantity" min="1" required>
-            <label for="itemParticulars">Particulars:</label>
-            <input type="text" class="item-particulars" id="itemParticulars" placeholder="Enter details of the item"
-                required>
-            <label for="itemRate">Rate:</label>
-            <input type="number" class="item-rate" id="itemRate" placeholder="Enter price" pattern="[0-9]+" required>
-            <button type="button" onclick="addItem()">Add Item</button>
+            <input type="text" id="customerName" required>
+            <label for="itemName">Item Name:</label>
+            <input type="text" id="itemName" required>
+            <label for="itemQuantity">Item Quantity:</label>
+            <input type="number" id="itemQuantity" required>
+            <label for="itemRate">Item Rate:</label>
+            <input type="number" id="itemRate" step="0.01" required>
+            <div class="btn-container">
+                <button type="button" onclick="addItemsToReceipt()">Add Item</button>
+                <button type="button" id="printReceiptBtn" onclick="printReceipt()">Print Receipt</button>
+                <button type="button" id="clearBtn" onclick="clearForm()">Clear Form</button>
+            </div>
+
         </form>
-        <div id="itemList"></div>
-        <button type="button" onclick="printReceipt()">Print Receipt</button>
     </div>
 
     <script src="script.js"></script>
+    <script>
+        // get the copyright year
+        let currentYear = document.getElementById('currentYear');
+        currentYear.innerText = new Date().getFullYear();
+    </script>
 </body>
 
 </html>
