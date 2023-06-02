@@ -224,6 +224,12 @@ function printReceipt() {
 
   // Print only the receiptContainer
   window.print();
+  
+  // Listen for the onafterprint event
+  window.onafterprint = function () {
+    // Reset the receipt details after printing
+    resetReceipt();
+  };
 }
 
 // Clear the form fields
