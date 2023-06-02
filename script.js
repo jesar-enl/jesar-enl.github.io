@@ -221,9 +221,14 @@ function printReceipt() {
 
   // Temporarily show the receiptContainer for printing
   receiptContainer.style.display = 'block';
+  
+  let printContents = document.getElementById("receiptContainer").innerHTML;
+  let originalContents = document.body.innerHTML;
 
+  document.body.innerHTML = printContents;
   // Print only the receiptContainer
   window.print();
+  document.body.innerHTML = originalContents;
   
   // Listen for the onafterprint event
   window.onafterprint = function () {
