@@ -227,16 +227,12 @@ function printReceipt() {
 
   document.body.innerHTML = printContents;
 
-  // Check if the print dialog is canceled
-  let afterPrint = function() {
-    document.body.innerHTML = originalContents;
-    window.removeEventListener("afterprint", afterPrint);
-  };
+  window.addEventListener("afterprint", function() {
+          window.close();
+        });
 
-  // Add event listener for afterprint event
-  window.addEventListener("afterprint", afterPrint);
-
-  window.print();
+        // Trigger printing
+        window.print();
 }
 
 // Clear the form fields
