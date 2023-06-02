@@ -226,15 +226,17 @@ function printReceipt() {
   let originalContents = document.body.innerHTML;
 
   document.body.innerHTML = printContents;
-  // Print only the receiptContainer
-  window.print();
-  document.body.innerHTML = originalContents;
-  
-  // Listen for the onafterprint event
-  window.onafterprint = function () {
-    // Reset the receipt details after printing
-    resetReceipt();
+
+  // Check if the print dialog is canceled
+  let afterPrint = function() {
+    document.body.innerHTML = originalContents;
+    window.removeEventListener("afterprint", afterPrint);
   };
+
+  // Add event listener for afterprint event
+  window.addEventListener("afterprint", afterPrint);
+
+  window.print();
 }
 
 // Clear the form fields
