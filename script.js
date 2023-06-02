@@ -222,8 +222,12 @@ function printReceipt() {
   // Temporarily show the receiptContainer for printing
   receiptContainer.style.display = 'block';
 
-  // Print only the receiptContainer
+  // Trigger printing
   window.print();
+  
+  window.addEventListener("afterprint", function() {
+      window.close();
+  });
 }
 
 // Clear the form fields
