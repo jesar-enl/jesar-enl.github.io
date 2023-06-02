@@ -221,18 +221,13 @@ function printReceipt() {
 
   // Temporarily show the receiptContainer for printing
   receiptContainer.style.display = 'block';
-  
-  let printContents = document.getElementById("receiptContainer").innerHTML;
-  let originalContents = document.body.innerHTML;
-
-  document.body.innerHTML = printContents;
 
   window.addEventListener("afterprint", function() {
-          window.close();
-        });
+      window.close();
+  });
 
-        // Trigger printing
-        window.print();
+  // Trigger printing
+  window.print();
 }
 
 // Clear the form fields
