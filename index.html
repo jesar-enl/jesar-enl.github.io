@@ -14,57 +14,24 @@
 </head>
 
 <body>
-    <div id="receiptContainer">
-        <div id="companyInfo">
-            <h2 id="companyNamePrint">KANE WELDING CENTER</h2>
-            <p id="companyAddress">P.O. Box 532, Masaka</p>
-            <p id="companyAddress">Plot 43, Ddiba Street - Masaka Industrial Area</p>
-            <p id="companyAddress">Tel: 0703900790/0772669378</p>
-            <p id="companyAddress">Email: kane.codev@gmail.com</p>
+    <header>
+        <div class="companyInfo">
+            <div class="company-logo">
+                <img src="images/kane.png" alt="logo">
+            </div>
+            <div class="company-details">
+                <h2 id="companyNamePrint">KANE WELDING CENTER</h2>
+                <p id="companyAddress">P.O. Box 532, Masaka</p>
+                <p id="companyAddress">Plot 43, Ddiba Street - Masaka Industrial Area</p>
+                <p id="companyAddress">Tel: 0703900790/0772669378</p>
+                <p id="companyAddress">Email: kane.codev@gmail.com</p>
+            </div>
         </div>
-        <div id="receiptDetails">
-            <p>Receipt #: <span id="receiptNumber"></span></p>
-            <p>Date: <span id="receiptDate"></span></p>
-        </div>
-        <hr>
-        <div id="customerInfo">
-            <p id="customerNameLabel">Customer Name: <span id="customerNamePrint"></span></p>
-        </div>
-        <hr>
-        <table id="table">
-            <thead>
-                <tr>
-                    <th>Qty</th>
-                    <th>Particulars</th>
-                    <th>Rate</th>
-                    <th>Amount</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-                <!-- Items will be dynamically added here -->
-            </tbody>
-        </table>
-        <hr>
-        <div id="totalAmountSection">
-            <p id="totalAmountLabel">Total Amount:</p>
-            <p id="totalAmount"></p>
-        </div>
-        <div>Amount in words: <span id="wordAmount"></span> shillings only</div>
-        <br>
-        <br>
-        <div id="stampSection">
-            <p>Sign: ......................</p>
-            <p>For: <span class="p2">KANE WELDING CENTER</span></p>
-        </div>
-        <footer>
-            <p>&copy; Copyright - <span id="currentYear"></span></p>
-        </footer>
+    </header>
 
-    </div>
-    <button type="button" id="resetBtn" onclick="resetReceipt()">Reset</button>
-
+    <!-- Form to enter the details -->
     <div id="receiptForm">
-        <h2>Receipt Form</h2>
+        <h2>Enter Receipt details:</h2>
         <form>
             <label for="customerName">Customer Name:</label>
             <input type="text" id="customerName" required>
@@ -76,11 +43,79 @@
             <input type="number" id="itemRate" step="0.01" required>
             <div class="btn-container">
                 <button type="button" onclick="addItemsToReceipt()">Add Item</button>
-                <button type="button" id="printReceiptBtn" onclick="printReceipt()">Print Receipt</button>
-                <button type="button" id="clearBtn" onclick="clearForm()">Clear Form</button>
+                <button type="button" id="printReceiptBtn">Print Receipt</button>
+                <button type="button" id="clearBtn">Clear Form</button>
             </div>
 
         </form>
+    </div>
+
+
+    <div id="receiptContainer">
+        <!-- Company Details -->
+        <div id="companyInfo">
+            <h2 id="companyNamePrint">KANE WELDING CENTER</h2>
+            <p id="companyAddress">P.O. Box 532, Masaka</p>
+            <p id="companyAddress">Plot 43, Ddiba Street - Masaka Industrial Area</p>
+            <p id="companyAddress">Tel: 0703900790/0772669378</p>
+            <p id="companyAddress">Email: kane.codev@gmail.com</p>
+        </div>
+
+        <!-- Receipt details: receipt no., Invoice no., Date -->
+        <div id="receiptDetails">
+            <p>Receipt No.: <span id="receiptNumber"></span></p>
+            <p>Invoice No.: <span id="invoiceNumber"></span></p>
+            <p>Date: <span id="receiptDate"></span></p>
+        </div>
+        <hr>
+
+        <!-- Customer details -->
+        <div id="customerInfo">
+            <p id="customerNameLabel">Customer Name: <span id="customerNamePrint"></span></p>
+        </div>
+        <hr>
+
+        <!-- Details of items in tabular form -->
+        <table id="table">
+            <!-- Table heads -->
+            <thead>
+                <tr>
+                    <th>Qty</th>
+                    <th>Particulars</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+
+            <!-- Items in details -->
+            <tbody id="tableBody">
+                <!-- Items will be dynamically added here -->
+            </tbody>
+        </table>
+        <hr>
+
+        <!-- Total amount of all the items on the receipt -->
+        <div id="totalAmountSection">
+            <p id="totalAmountLabel">Total Amount:</p>
+            <p id="totalAmount"></p>
+        </div>
+
+        <!-- Total amount in words -->
+        <div><span id="inwords">Amount in words</span>: <span id="wordAmount"></span> shillings only</div>
+        <br>
+        <br>
+
+        <!-- Stamp and signature section -->
+        <div id="stampSection">
+            <p><span class="p2">Sign: ......................</span></p>
+            <p>For: <span class="p2">KANE WELDING CENTER</span></p>
+        </div>
+
+        <!-- Footer section -->
+        <footer>
+            <p>&copy; Copyright - <span id="currentYear"></span></p>
+        </footer>
+
     </div>
 
     <script src="script.js"></script>

@@ -1,3 +1,17 @@
+function generateInvoiceNumber() {
+  let usedNumbers = [];
+
+  let invoiceNo = '';
+
+  do {
+    invoiceNo = Math.floor(Math.random() * 90000) + 10000;
+  } while (usedNumbers.includes(invoiceNo));
+
+  usedNumbers.push(invoiceNo);
+
+  return invoiceNo;
+}
+
 // Global variable to keep track of the receipt number
 let receiptCount = 1;
 
@@ -51,8 +65,8 @@ function calculateTotalAmount() {
   const tableBody = document.getElementById('tableBody');
   const rows = tableBody.getElementsByTagName('tr');
 
-  for (let i = 0; i < rows.length; i++) {
-    const amountCell = rows[i].cells[3];
+  for (const element of rows) {
+    const amountCell = element.cells[3];
     const amountText = amountCell.textContent.trim();
 
     if (amountText !== '') {
@@ -196,10 +210,20 @@ function printReceipt() {
   const receiptContainer = document.getElementById('receiptContainer');
   receiptContainer.style.display = 'block';
 
+  const invoiceNo = generateInvoiceNumber();
+
   const receiptNumber = document.getElementById('receiptNumber');
   const receiptDate = document.getElementById('receiptDate');
   const customerNamePrint = document.getElementById('customerNamePrint');
   const totalAmount = document.getElementById('totalAmount');
+
+  // Generate the receipt number
+  const generatedReceiptNumber = generateReceiptNumber();
+
+  const invoiceNoElement = document.getElementById('invoiceNumber');
+  invoiceNoElement.innerText = `KWC/${invoiceNo
+    .toString()
+    .padStart(5, '0')}/02`;
 
   // Get the total amount in words
   const totalAmountWords = convertAmountToWords(
@@ -211,7 +235,7 @@ function printReceipt() {
   document.getElementById('receiptDate').innerText = receiptDate;
   document.getElementById('customerNamePrint').innerText = customerName;
 
-  receiptNumber.innerText = generateReceiptNumber();
+  receiptNumber.innerText = generatedReceiptNumber;
   receiptDate.innerText = getCurrentDate();
   customerNamePrint.innerText = getCustomerName();
   totalAmount.innerText = calculateTotalAmount();
@@ -222,12 +246,10 @@ function printReceipt() {
   // Temporarily show the receiptContainer for printing
   receiptContainer.style.display = 'block';
 
-  // Trigger printing
+  // Open the print window
   window.print();
-  
-  window.addEventListener("afterprint", function() {
-      window.close();
-  });
+
+  resetReceipt();
 }
 
 // Clear the form fields
@@ -236,7 +258,6 @@ function clearForm() {
   document.getElementById('itemName').value = '';
   document.getElementById('itemQuantity').value = '';
   document.getElementById('itemRate').value = '';
-  document.getElementById('itemAmount').value = '';
 }
 
 // Reset the receipt section
@@ -251,13 +272,11 @@ function resetReceipt() {
   // Reset receipt details
   document.getElementById('receiptNumber').innerText = '';
   document.getElementById('receiptDate').innerText = '';
+  document.getElementById('invoiceNumber').innerText = '';
   document.getElementById('customerNamePrint').innerText = '';
 
   // Reset the total amount
   document.getElementById('totalAmount').innerText = '';
-
-  // Hide the receipt section
-  document.getElementById('receiptSection').style.display = 'none';
 }
 
 // Add event listener for the "Print Receipt" button
@@ -272,10 +291,4 @@ document
 document.getElementById('clearBtn').addEventListener('click', function (event) {
   event.preventDefault();
   clearForm();
-});
-
-// Add event listener for the "Reset" button
-document.getElementById('resetBtn').addEventListener('click', function (event) {
-  event.preventDefault();
-  resetReceipt();
 });
