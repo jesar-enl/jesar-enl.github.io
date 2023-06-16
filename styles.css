@@ -250,6 +250,26 @@ footer {
   .header {
     padding: 20px;
   }
+
+  .companyInfo {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .company-details #companyNamePrint {
+    font-size: 20px;
+  }
+
+  .company-logo img {
+    border-radius: 60%;
+    width: 200px;
+    margin-bottom: 10px;
+  }
+
+  #companyInfo #companyNamePrint {
+    font-size: 25px;
+  }
+
   /* Example: Increase padding for tablets */
   .item-table th,
   .item-table td {
@@ -286,6 +306,26 @@ footer {
   .header {
     padding: 10px;
   }
+
+  .companyInfo {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .company-logo img {
+    border-radius: 60%;
+    width: 200px;
+    margin-bottom: 10px;
+  }
+
+  .company-details #companyNamePrint {
+    font-size: 20px;
+  }
+
+  #companyInfo #companyNamePrint {
+    font-size: 25px;
+  }
+
   /* Example: Decrease padding for smartphones */
   .item-table th,
   .item-table td {
